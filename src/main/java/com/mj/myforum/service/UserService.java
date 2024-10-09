@@ -1,6 +1,7 @@
 package com.mj.myforum.service;
 
 import com.mj.myforum.domain.User;
+import com.mj.myforum.form.SignupForm;
 import com.mj.myforum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,18 +20,27 @@ public class UserService {
 
     //회원가입
     @Transactional //기본 default는 false, 회원가입은 읽고 쓰도록 설정
-    public Long save(User user) {
-        validateDuplicateUserLoginId(user); //중복 회원 검증
+    public User save(SignupForm form) {
+        isLoginIdDuplicated(form.getLoginId()); //중복 회원 검증
+        User user = new User(form.getLoginId(), form.getPassword(), form.getName(), form.getEmail());
         userRepository.save(user);
-        return user.getId();
+        return user;
     }
 
     //중복 회원 검사
-    private void validateDuplicateUserLoginId(User user) {
-        Optional<User> existingUser = userRepository.findByLoginId(user.getLoginId());
+    public boolean isLoginIdDuplicated(String loginId) {
+        Optional<User> existingUser = userRepository.findByLoginId(loginId);
         if (existingUser.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+            return true;
         }
+        return false;
+    }
+
+    public boolean isPasswordSame(String password, String passwordCheck) {
+        if (password.equals(passwordCheck)) {
+            return true;
+        }
+        return false;
     }
 
     //전체 회원 조회
@@ -39,8 +49,8 @@ public class UserService {
     }
 
     //id로 조회
-    public User findById(Long userId) {
-        return userRepository.findById(userId);
+    public User findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<User> findByLoginId(String loginId) {
