@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -28,8 +29,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("loginForm") LoginForm form,
-                        BindingResult bindingResult,
+    public String login(@Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
+                        @RequestParam(defaultValue = "/")String redirectURL,
                         HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
@@ -47,7 +48,11 @@ public class LoginController {
         HttpSession session = request.getSession();
         //세션에 로그인 회원 정보 보관
         session.setAttribute("loginUser", loginUser);
-        return "posts/postList";
+
+        if (redirectURL != null) {
+            return "redirect:" + redirectURL;
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/logout")
