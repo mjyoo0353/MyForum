@@ -14,7 +14,7 @@
     <form th:action th:object="${post}" method="get">
 
         <div class="py-4">
-            <h3 th:text="*{title}">작성글 제목</h3>
+            <h4 th:text="*{title}">작성글 제목</h4>
         </div>
 
         <hr class="my-2">
@@ -39,10 +39,10 @@
                 <button class="btn btn-secondary me-2" type="button"
                         th:onclick="|location.href='@{/posts/list}'|">Back to list
                 </button>
-                <button class="btn btn-secondary me-2" type="button"
+                <button th:if="${access}" class="btn btn-primary me-2" type="button"
                         th:onclick="|location.href='@{/posts/edit(postId=${post.id})}'|">Update
                 </button>
-                <button class="btn btn-danger me-2" type="button"
+                <button th:if="${access}" class="btn btn-danger me-2" type="button"
                         th:onclick="|location.href='@{/posts/delete(postId=${post.id})}'|">Delete
                 </button>
         </div>

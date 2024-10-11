@@ -24,27 +24,12 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping("/list")
-    public String postList(@SessionAttribute(name = "loginUser", required = false) User loginUser,
-                           Model model) {
+    public String postList(Model model) {
 
-        //로그인 여부 체크
-        model.addAttribute("show", checkLogin(loginUser, model));
         //게시물 목록 가져오기
         List<Post> postList = postService.postList();
         model.addAttribute("postList", postList);
         return "posts/postList";
-    }
-
-    /**
-     * 로그인 체크 메서드
-     */
-    private boolean checkLogin(User loginUser, Model model) {
-        if (loginUser == null) {
-            return false;
-        } else {
-            model.addAttribute("user", userService.findById(loginUser.getId()));
-            return true;
-        }
     }
 
     //작성한 글 보기

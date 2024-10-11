@@ -20,9 +20,6 @@ public class PostRepository{
         return post;
     }
 
-    public void update(Post post) {
-    }
-
     public void delete(Post post) {
         em.remove(post);
     }

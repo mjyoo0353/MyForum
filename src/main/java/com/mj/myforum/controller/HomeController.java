@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomeController {
@@ -24,7 +25,7 @@ public class HomeController {
 
         //세션이 유지되면 로그인된 홈으로 이동
         model.addAttribute("user", loginUser);
-        return "loginHome";
+        return "redirect:/posts/list";
     }
 
 
