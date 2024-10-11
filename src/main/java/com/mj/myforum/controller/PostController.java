@@ -79,7 +79,7 @@ public class PostController {
         if (postService.isAccessable(postId, loginUser)) {
             model.addAttribute("access", true);
         }
-        Post post = postService.findById(postId);
+        Post post = postService.getPost(postId);
         model.addAttribute("post", post);
         return "posts/getPost";
     }
