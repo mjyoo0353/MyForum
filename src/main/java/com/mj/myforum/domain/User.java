@@ -2,7 +2,7 @@ package com.mj.myforum.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,16 +14,16 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @NotBlank
+    @Column(nullable = false)
     private String loginId;
 
-    @NotBlank
+    @Column(nullable = false)
     private String password;
 
-    @NotBlank
+    @Column(nullable = false)
     private String name;
 
-    @Email
+    @Email @Column(nullable = false)
     private String email;
 
     public User() {

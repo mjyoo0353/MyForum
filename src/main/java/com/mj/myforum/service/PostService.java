@@ -4,7 +4,6 @@ import com.mj.myforum.domain.Post;
 import com.mj.myforum.domain.User;
 import com.mj.myforum.form.PostForm;
 import com.mj.myforum.repository.PostRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

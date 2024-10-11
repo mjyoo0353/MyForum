@@ -22,17 +22,20 @@
         tr:hover {
             background-color: #f5f5f5; /* 마우스 오버 시 배경색 변경 */
         }
+        .row {
+            text-align: right;
+        }
     </style>
 
 </head>
 
 <body>
-<header th:replace="fragments/header :: header"></header>
+<header th:replace="layout/header :: header"></header>
 
 <div class="container">
 
     <div class="py-5 text-center">
-        <h2>게시판</h2>
+        <h2>Forum</h2>
     </div>
 
     <hr class="my-4">
@@ -41,11 +44,11 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th style="width: 100px;">번호</th>
-                <th style="width: 500px;">제목</th>
-                <th style="width: 150px;">작성자</th>
-                <th style="width: 150px;">등록일</th>
-                <th style="width: 100px;">조회수</th>
+                <th style="width: 100px;">#</th>
+                <th style="width: 500px;">Title</th>
+                <th style="width: 150px;">Writer</th>
+                <th style="width: 150px;">Posting Date</th>
+                <th style="width: 100px;">Views</th>
             </tr>
             </thead>
             <tbody>
@@ -60,17 +63,15 @@
         </table>
     </div>
 
-    <hr class="my-4">
-
     <div class="row">
         <div class="col">
             <button class="btn btn-primary"
-                    th:onclick="|location.href='@{/posts/create}'|" type="button">글 작성
+                    th:onclick="|location.href='@{/posts/create}'|" type="button">Create
             </button>
         </div>
     </div>
 
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="layout/footer :: footer"></div>
 
 </div> <!-- /container -->
 </body>
