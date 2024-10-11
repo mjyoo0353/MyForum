@@ -6,7 +6,6 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -21,13 +20,11 @@ public class PostRepository{
         return post;
     }
 
-    public Post update(Post post) {
-        return null;
+    public void update(Post post) {
     }
 
-    public Post delete(Post post) {
+    public void delete(Post post) {
         em.remove(post);
-        return post;
     }
 
     public Post findById(Long postId) {

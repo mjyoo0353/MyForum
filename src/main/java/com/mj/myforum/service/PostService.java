@@ -4,6 +4,7 @@ import com.mj.myforum.domain.Post;
 import com.mj.myforum.domain.User;
 import com.mj.myforum.form.PostForm;
 import com.mj.myforum.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,16 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post delete(Long postId) {
+    public void update(Long postId, PostForm postForm) {
+        Post post = postRepository.findById(postId); //수정할 post 불러오기
+        post.setTitle(postForm.getTitle());
+        post.setContent(postForm.getContent()); //수정된 제목, 내용으로 업데이트
+        postRepository.save(post);
+    }
+
+    public void delete(Long postId) {
         Post post = postRepository.findById(postId);
-        return postRepository.delete(post);
+        postRepository.delete(post);
     }
 
     public Post findById(Long postId) {
@@ -57,11 +65,5 @@ public class PostService {
         }
     }
 
-    public Post updatePost(Long postId, PostForm form) {
-        Post post = postRepository.findById(postId); //수정할 post 불러오기
-        post.setTitle(form.getTitle());
-        post.setContent(form.getContent()); //수정된 제목, 내용으로 업데이트
-        return postRepository.save(post); //post update 완료
-    }
 
 }

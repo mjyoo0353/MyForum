@@ -48,6 +48,19 @@ public class PostController {
         }
     }
 
+    //작성한 글 보기
+    @GetMapping("/{postId}")
+    public String getPost(@PathVariable Long postId, Model model,
+                          @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+
+        if (postService.isAccessable(postId, loginUser)) {
+            model.addAttribute("access", true);
+        }
+        Post post = postService.getPost(postId);
+        model.addAttribute("post", post);
+        return "posts/getPost";
+    }
+
     //게시글 작성 폼 불러오기
     @GetMapping("/create")
     public String createPostForm(@ModelAttribute("postForm") PostForm postForm) {
@@ -68,32 +81,20 @@ public class PostController {
         Post savedPost = postService.save(loginUser, postForm);
 
         redirectAttributes.addAttribute("postId", savedPost.getId());
-        return "redirect:/posts/post/{postId}";
-    }
-
-    //작성한 글 보기
-    @GetMapping("/post/{postId}")
-    public String getPost(@PathVariable Long postId, Model model,
-                       @SessionAttribute(name = "loginUser", required = false) User loginUser) {
-
-        if (postService.isAccessable(postId, loginUser)) {
-            model.addAttribute("access", true);
-        }
-        Post post = postService.getPost(postId);
-        model.addAttribute("post", post);
-        return "posts/getPost";
+        return "redirect:/posts/{postId}";
     }
 
     //게시글 수정하기
-    @GetMapping("/edit/{postId}")
-    public String editPostForm(@PathVariable("postId") Long postId, Model model) {
+    @GetMapping("/edit")
+    public String editPostForm(@RequestParam("postId") Long postId, Model model) {
         Post post = postService.findById(postId); //수정할 post 객체 불러오기
         PostForm postForm = new PostForm();
         postForm.setTitle(post.getTitle());
-        postForm.setContent(post.getContent()); //뷰에 보일 form에 수정 전 데이터 저장
+        postForm.setContent(post.getContent()); //뷰에 보일 postForm에 수정 전 데이터 저장
 
         model.addAttribute("postForm", postForm); //해당 form 뷰에 전달
-        model.addAttribute("postId", postId); //수정할 postid 전달
+        model.addAttribute("postId", postId); //수정할 id도 전달*/
+
         return "posts/editPost";
     }
 
@@ -105,9 +106,9 @@ public class PostController {
             model.addAttribute("postId", postId);
             return "posts/editPost";
         }
-        postService.updatePost(postId, postForm);
+        postService.update(postId, postForm);
         redirectAttributes.addAttribute("postId", postId);
-        return "redirect:/posts/post/{postId}";
+        return "redirect:/posts/{postId}";
     }
 
     //게시글 삭제하기
