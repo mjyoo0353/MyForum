@@ -10,12 +10,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class HomeController {
 
-    //@GetMapping("/")
+    @GetMapping("/")
     public String home(){
-        return "home";
+        return "redirect:/posts/list";
     }
 
-    @GetMapping("/")
+    //@GetMapping("/")
     public String homeLogin(@SessionAttribute(name = "loginUser", required = false)User loginUser,
                             Model model){
         //세션에 회원 데이터가 없으면 home

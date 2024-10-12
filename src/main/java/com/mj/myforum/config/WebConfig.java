@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**") // "/"의 하위 폴더 모두 해당됨
-                .excludePathPatterns("/", "/users/signup", "/login","/logout",
+                .excludePathPatterns("/", "/posts/list", "/users/signup", "/login","/logout",
                         "/css/**", "/*.ico", "/error"); //interceptor 적용 제외
     }
 

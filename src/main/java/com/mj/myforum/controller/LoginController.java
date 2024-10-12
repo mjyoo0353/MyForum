@@ -52,7 +52,7 @@ public class LoginController {
         if (redirectURL != null) {
             return "redirect:" + redirectURL;
         }
-        return "redirect:/";
+        return "redirect:/posts/list";
     }
 
     @PostMapping("/logout")
@@ -61,6 +61,6 @@ public class LoginController {
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:/";
+        return "redirect:/posts/list";
     }
 }

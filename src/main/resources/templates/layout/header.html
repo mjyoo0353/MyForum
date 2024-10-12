@@ -18,11 +18,17 @@
         </div>
 
         <div class="text-end d-flex align-items-center">
-            <a class="btn btn-outline-light me-2" th:href="@{/users/profile}">MY PAGE</a>
-
-            <form th:action="@{/logout}" method="POST">
-                <button type="submit" class="btn btn-outline-light me-2">LOGOUT</button>
-            </form>
+            <div th:if="${session.loginUser != null}" class="d-flex align-items-center">
+                <span class="text-white me-3" th:text="${session.loginUser.name}"></span>
+                <a class="btn btn-outline-light me-2" th:href="@{/users/profile}">MY PAGE</a>
+                <form th:action="@{/logout}" method="POST">
+                    <button type="submit" class="btn btn-outline-light me-2">LOGOUT</button>
+                </form>
+            </div>
+            <div th:if="${session.loginUser == null}">
+                <a class="btn btn-outline-light me-2" th:href="@{/login}">LOGIN</a>
+                <a class="btn btn-outline-light me-2" th:href="@{/users/signup}">SIGN UP</a>
+            </div>
         </div>
 
     </div>
