@@ -26,18 +26,4 @@ public class User {
     @Email @Column(nullable = false)
     private String email;
 
-    public User() {
-    }
-
-    public User(String loginId, String password) {
-        this.loginId = loginId;
-        this.password = password;
-    }
-
-    public User(String loginId, String password, String name, String email) {
-        this.loginId = loginId;
-        this.password = password;
-        this.name = name;
-        this.email = email;
-    }
 }

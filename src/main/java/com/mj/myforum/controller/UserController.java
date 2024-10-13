@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -32,8 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Validated @ModelAttribute("form") SignupForm form, BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes){
+    public String signup(@Validated @ModelAttribute("form") SignupForm form, BindingResult bindingResult){
 
         //LoginId 중복 체크
         if (userService.isLoginIdDuplicated(form.getLoginId())) {
@@ -49,8 +46,7 @@ public class UserController {
             return "users/signupForm";
         }
 
-        User savedUser = userService.save(form);
-        redirectAttributes.addAttribute("name", savedUser.getName());
+        User savedUser = userService.save(form.getLoginId(), form.getPassword(), form.getName(), form.getEmail());
         return "redirect:/";
     }
 

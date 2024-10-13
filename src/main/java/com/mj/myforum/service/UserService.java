@@ -1,7 +1,6 @@
 package com.mj.myforum.service;
 
 import com.mj.myforum.domain.User;
-import com.mj.myforum.form.SignupForm;
 import com.mj.myforum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,12 @@ public class UserService {
 
     //회원가입
     @Transactional //기본 default는 false, 회원가입은 읽고 쓰도록 설정
-    public User save(SignupForm form) {
-        isLoginIdDuplicated(form.getLoginId()); //중복 회원 검증
-        User user = new User(form.getLoginId(), form.getPassword(), form.getName(), form.getEmail());
+    public User save(String loginId, String password, String name, String email) {
+        User user = new User();
+        user.setLoginId(loginId);
+        user.setPassword(password);
+        user.setName(name);
+        user.setEmail(email);
         userRepository.save(user);
         return user;
     }
@@ -49,7 +51,7 @@ public class UserService {
     }
 
     //id로 조회
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
