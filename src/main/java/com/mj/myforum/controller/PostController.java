@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/posts")
 @Controller
@@ -23,9 +24,9 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
 
+
     @GetMapping("/list")
     public String postList(Model model) {
-
         //게시물 목록 가져오기
         List<Post> postList = postService.postList();
         model.addAttribute("postList", postList);
@@ -47,50 +48,46 @@ public class PostController {
 
     //게시글 작성 폼 불러오기
     @GetMapping("/create")
-    public String createPostForm(@ModelAttribute("postForm") PostForm postForm) {
+    public String createPostForm(@ModelAttribute("form") PostForm form) {
         return "posts/createPost";
     }
 
     //게시글 작성
     @PostMapping("/create")
-    public String createPost(@Validated @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult,
+    public String createPost(@Validated @ModelAttribute("form") PostForm form, BindingResult bindingResult,
                              @SessionAttribute(name = "loginUser", required = false) User loginUser,
                              RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "posts/createPost";
         }
-
-        //로그인 유저 정보 검증
-        Post savedPost = postService.save(loginUser, postForm);
-
+        Optional<User> user = userService.findByLoginId(loginUser.getLoginId());
+        Post savedPost = postService.save(form.getTitle(), form.getContent(), user.get());
         redirectAttributes.addAttribute("postId", savedPost.getId());
         return "redirect:/posts/{postId}";
     }
 
     //게시글 수정하기
     @GetMapping("/edit")
-    public String editPostForm(@RequestParam("postId") Long postId, Model model) {
+    public String editPostForm(PostForm form, @RequestParam("postId") Long postId, Model model) {
         Post post = postService.findById(postId); //수정할 post 객체 불러오기
-        PostForm postForm = new PostForm();
-        postForm.setTitle(post.getTitle());
-        postForm.setContent(post.getContent()); //뷰에 보일 postForm에 수정 전 데이터 저장
+        form.setTitle(post.getTitle());
+        form.setContent(post.getContent()); //뷰에 보일 postForm에 수정 전 데이터 저장
 
-        model.addAttribute("postForm", postForm); //해당 form 뷰에 전달
+        model.addAttribute("form", form); //해당 form 뷰에 전달
         model.addAttribute("postId", postId); //수정할 id도 전달*/
-
         return "posts/editPost";
     }
 
     @PostMapping("/edit/{postId}")
-    public String editPost(@PathVariable Long postId,
-                           @Validated @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult,
-                           Model model, RedirectAttributes redirectAttributes){
+    public String editPost(@Validated @ModelAttribute("form") PostForm form, BindingResult bindingResult,
+                           @PathVariable Long postId, RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("postId", postId);
             return "posts/editPost";
         }
-        postService.update(postId, postForm);
+        Post post = postService.getPost(postId);
+        postService.update(post, form.getTitle(), form.getContent());
         redirectAttributes.addAttribute("postId", postId);
         return "redirect:/posts/{postId}";
     }
@@ -98,7 +95,8 @@ public class PostController {
     //게시글 삭제하기
     @GetMapping("/delete")
     public String deletePost(@RequestParam("postId") Long postId) {
-        postService.delete(postId);
+        Post post = postService.getPost(postId);
+        postService.delete(post);
         return "redirect:/posts/list";
     }
 
