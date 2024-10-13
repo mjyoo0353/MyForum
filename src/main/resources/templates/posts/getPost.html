@@ -22,7 +22,7 @@
         <!-- 게시글 정보 한줄 -->
         <div class="d-flex justify-content-between">
             <span th:text="'# : '+*{id}"># : postId</span>&nbsp;
-            <span th:text="' | Writer : '+*{writer}"> | Writer : writer</span>&nbsp;
+            <span th:text="' | Writer : '+${post.user.loginId}"> | Writer : writer</span>&nbsp;
             <span th:text="' | Posting Date : '+${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"> | Posting Date : 2024-10-09</span>&nbsp;
             <span th:text="' | Views : '+*{views}"> | Views : 0</span>
         </div>
