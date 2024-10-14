@@ -51,8 +51,9 @@ public class UserService {
     }
 
     //id로 조회
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
     }
 
     public Optional<User> findByLoginId(String loginId) {

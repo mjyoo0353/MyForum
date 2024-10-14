@@ -56,10 +56,5 @@ public class PostService {
         return post;
     }
 
-    public boolean isAccessable(Long postId, User loginUser) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalStateException("Post not found"));
-        return (post.getUser().getLoginId().equals(loginUser.getLoginId()));
-    }
 
 }
