@@ -35,4 +35,8 @@ public class Post {
 
     private Long views;
 
+    public int getCommentCount(){
+        return commentList.size();
+    }
+
 }
