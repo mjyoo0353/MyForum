@@ -9,6 +9,7 @@ import com.mj.myforum.service.CommentService;
 import com.mj.myforum.service.PostService;
 import com.mj.myforum.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +31,10 @@ public class PostController {
 
 
     @GetMapping("/list")
-    public String postList(Model model) {
-        //게시물 목록 가져오기
-        List<Post> postList = postService.postList();
+    public String postList(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+
+        Page<Post> postList = postService.getPostList(page);
+        //List<Post> postList = postService.postList();
         model.addAttribute("postList", postList);
         return "posts/postList";
     }

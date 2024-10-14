@@ -4,6 +4,9 @@ import com.mj.myforum.domain.Post;
 import com.mj.myforum.domain.User;
 import com.mj.myforum.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,8 +48,9 @@ public class PostService {
                 .orElseThrow(() -> new IllegalStateException("Post not found"));
     }
 
-    public List<Post> postList() {
-        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    public Page<Post> getPostList(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "id"));
+        return postRepository.findAll(pageable);
     }
 
     public Post getPost(Long postId) {
