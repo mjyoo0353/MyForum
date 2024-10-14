@@ -1,8 +1,11 @@
 package com.mj.myforum.controller;
 
+import com.mj.myforum.domain.Comment;
 import com.mj.myforum.domain.Post;
 import com.mj.myforum.domain.User;
+import com.mj.myforum.form.CommentForm;
 import com.mj.myforum.form.PostForm;
+import com.mj.myforum.service.CommentService;
 import com.mj.myforum.service.PostService;
 import com.mj.myforum.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
+    private final CommentService commentService;
 
 
     @GetMapping("/list")
@@ -35,14 +39,15 @@ public class PostController {
 
     //작성한 글 보기
     @GetMapping("/{postId}")
-    public String getPost(@PathVariable Long postId, Model model,
+    public String getPost(@PathVariable Long postId, Model model, CommentForm commentForm,
                           @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 
-        if (postService.isAccessable(postId, loginUser)) {
-            model.addAttribute("access", true);
-        }
         Post post = postService.getPost(postId);
+        List<Comment> comments = commentService.commentList(postId);
         model.addAttribute("post", post);
+        model.addAttribute("loginUser", loginUser);
+        model.addAttribute("commentForm", commentForm);
+        model.addAttribute("comments", comments);
         return "posts/getPost";
     }
 

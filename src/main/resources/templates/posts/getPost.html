@@ -6,6 +6,20 @@
     <link th:href="@{/css/all.css}" rel="stylesheet">
 </head>
 
+<style>
+    .borderless-button {
+        border: 1px solid #007bff; /* 테두리 색상 */
+        background-color: transparent; /* 배경색 투명 */
+        color: #007bff; /* 텍스트 색상 */
+        transition: background-color 0.3s, color 0.3s; /* 부드러운 효과 */
+    }
+
+    .borderless-button:hover {
+        background-color: #007bff; /* hover 시 배경색 */
+        color: white; /* hover 시 텍스트 색상 */
+    }
+</style>
+
 <body>
 <header th:replace="layout/header :: header"></header>
 
@@ -39,15 +53,53 @@
                 <button class="btn btn-secondary me-2" type="button"
                         th:onclick="|location.href='@{/posts/list}'|">Back to list
                 </button>
-                <button th:if="${access}" class="btn btn-primary me-2" type="button"
+                <div th:if="${post.user.id} == ${loginUser.id}" >
+                <button class="btn btn-primary me-2"
                         th:onclick="|location.href='@{/posts/edit(postId=${post.id})}'|">Update
                 </button>
-                <button th:if="${access}" class="btn btn-danger me-2" type="button"
+                <button class="btn btn-danger me-2"
                         th:onclick="|location.href='@{/posts/delete(postId=${post.id})}'|">Delete
                 </button>
+                </div>
         </div>
-
     </form>
+
+    <br>
+    <!-- Comment -->
+    <div class="container">
+        <!-- Create Comment Form -->
+        <form th:action="@{/posts/{postId}(postId=${postId})}" th:object="${commentForm}" method="post">
+            <div class="d-flex">
+                <div class="flex-grow-1 me-2">
+                    <textarea type="text" id="content" th:field="${commentForm.content}" rows="3"
+                              th:errorclass="field-error" class="form-control m-2">
+                    </textarea>
+                    <div class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                </div>
+                <button class="btn-outline-secondary btn m-2 text-nowrap" type="submit">Create Comment</button>
+            </div>
+        </form>
+        <hr>
+
+        <!-- Comment list -->
+        <div th:each="comment : ${comments}">
+            <div class="card shadow-sm d-flex">
+                <div class="d-flex justify-content-between align-items-center ms-2 p-2">
+                    <div class="fw-bold" th:text="|${comment.user.name}   (${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm')})|"></div>
+                    <div th:if="${comment.user.id} == ${loginUser.id}">
+                        <button class="borderless-button btn btn-sm me-1"
+                           th:onclick="|location.href='@{/comments/edit/${commentId}(commentId=${comment.id})}'|">Update
+                        </button>
+                        <button class="borderless-button btn btn-sm me-1"
+                           th:onclick="|location.href='@{/comments/delete/${commentId}(commentId=${comment.id})}'|">Delete
+                        </button>
+                    </div>
+                </div>
+                <div class="card-text ms-3 me-3 mb-3" th:text="${comment.content}">Comment content</div>
+            </div>
+        </div>
+    </div>
+    <!-- Comment End-->
 
     <div th:replace="layout/footer :: footer"></div>
 
