@@ -24,10 +24,6 @@ a {
 a:hover {
     text-decoration: underline;
 }
-.comment-count {
-    font-size: 1.1em;
-    color: #ff0000;
-}
 
 /* search bar start */
 .search-form {

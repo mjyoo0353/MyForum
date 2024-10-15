@@ -21,7 +21,7 @@
 </style>
 
 <body>
-<header th:replace="layout/header :: header"></header>
+<header th:replace="~{layout/header :: header}"></header>
 
 <div class="container">
 
@@ -72,11 +72,11 @@
             <div class="d-flex">
                 <div class="flex-grow-1 me-2">
                     <textarea type="text" id="content" th:field="${commentForm.content}" rows="3"
-                              th:errorclass="field-error" class="form-control m-2">
+                              th:errorclass="field-error" class="form-control m-2" placeholder="Add a comment">
                     </textarea>
                     <div class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
                 </div>
-                <button class="btn-outline-secondary btn m-2 text-nowrap" type="submit">Create Comment</button>
+                <button class="btn-outline-secondary btn m-2 text-nowrap" type="submit">Comment</button>
             </div>
         </form>
         <hr>
@@ -101,7 +101,7 @@
     </div>
     <!-- Comment End-->
 
-    <div th:replace="layout/footer :: footer"></div>
+    <div th:replace="~{layout/footer :: footer}"></div>
 
 </div> <!-- /container -->
 </body>

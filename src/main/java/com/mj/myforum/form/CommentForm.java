@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class CommentForm {
 
-    @NotBlank(message = "내용을 입력해주세요.")
+    @NotBlank(message = "Enter a content")
     private String content;
 }

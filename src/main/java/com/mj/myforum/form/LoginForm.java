@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class LoginForm {
 
-    @NotBlank(message = "ID를 입력해주세요.")
+    @NotBlank(message = "Enter your Login ID")
     private String loginId;
 
-    @NotBlank(message = "비밀번호를 입력해주세요.")
+    @NotBlank(message = "Enter your password")
     private String password;
 }

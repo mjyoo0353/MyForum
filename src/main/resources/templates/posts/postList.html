@@ -48,18 +48,17 @@
                 <th style="width: 150px;">Writer</th>
                 <th style="width: 150px;">Posting Date</th>
                 <th style="width: 100px;">Views</th>
+                <th style="width: 100px;">Comments</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="post : ${postList}">
                 <td th:text="${post.id}"></td>
-                <td style="text-align: left">
-                    <a th:text="${post.title}" th:href="@{/posts/{postId}(postId=${post.id})}"></a>
-                    <span class="comment-count" th:if="${post.commentCount > 0}" th:text="|[${post.commentCount}]|"></span>
-                </td>
+                <td style="text-align: left"><a th:text="${post.title}" th:href="@{/posts/{postId}(postId=${post.id})}"></a></td>
                 <td th:text="${post.user.loginId}"></td>
                 <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}"></td>
                 <td th:text="${post.views}"></td>
+                <td th:text="${post.commentCount}"></td>
             </tr>
             </tbody>
         </table>

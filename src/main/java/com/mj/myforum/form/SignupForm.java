@@ -7,19 +7,19 @@ import lombok.Data;
 @Data
 public class SignupForm {
 
-    @NotBlank(message = "ID를 입력해주세요.")
+    @NotBlank(message = "Enter a login ID")
     private String loginId;
 
-    @NotBlank(message = "비밀번호를 입력해주세요.")
+    @NotBlank(message = "Enter a password")
     private String password;
 
-    @NotBlank(message = "Confirm password")
+    @NotBlank(message = "Type your password again")
     private String passwordCheck;
 
-    @NotBlank(message = "이름을 입력해주세요.")
+    @NotBlank(message = "Enter your name")
     private String name;
 
-    @Email @NotBlank(message = "이메일을 입력해주세요.")
+    @Email @NotBlank(message = "Enter your email")
     private String email;
 
 }
