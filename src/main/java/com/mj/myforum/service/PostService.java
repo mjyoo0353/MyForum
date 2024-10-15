@@ -10,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -49,8 +46,14 @@ public class PostService {
     }
 
     public Page<Post> getPostList(int page) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
         return postRepository.findAll(pageable);
+    }
+    public Page<Post> searchPosts(String keyword, int page) {
+        if(keyword == null) keyword = "";
+
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
+        return postRepository.findByTitleContaining(keyword, pageable);
     }
 
     public Post getPost(Long postId) {
@@ -59,6 +62,7 @@ public class PostService {
         postRepository.save(post); //post 조회수 증가 update
         return post;
     }
+
 
 
 }

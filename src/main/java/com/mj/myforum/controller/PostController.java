@@ -8,6 +8,7 @@ import com.mj.myforum.form.PostForm;
 import com.mj.myforum.service.CommentService;
 import com.mj.myforum.service.PostService;
 import com.mj.myforum.service.UserService;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,16 @@ public class PostController {
     public String postList(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
 
         Page<Post> postList = postService.getPostList(page);
-        //List<Post> postList = postService.postList();
+        model.addAttribute("postList", postList);
+        return "posts/postList";
+    }
+
+    @GetMapping("/search")
+    public String postList(@RequestParam(value = "keyword", required = false) String keyword,
+                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                Model model) {
+
+        Page<Post> postList = postService.searchPosts(keyword, page);
         model.addAttribute("postList", postList);
         return "posts/postList";
     }

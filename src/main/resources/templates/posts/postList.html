@@ -16,8 +16,9 @@
         <h2>Forum</h2>
     </div>
 
+    <!-- Search bar start-->
     <div class="col-lg-12 card search-form">
-        <form class="row" id="search-form">
+        <form class="row" id="search-form" th:action="@{/posts/search}" method="get">
             <div class="col-lg-3 col-sm-12 p-0">
                 <select class="form-control">
                     <option>Title</option>
@@ -27,7 +28,7 @@
                 </select>
             </div>
             <div class="col-lg-8 col-sm-12 p-0">
-                <input type="text" placeholder="Search..." class="form-control" id="search" name="search">
+                <input type="text" class="form-control" id="search" name="keyword" placeholder="Search..." >
             </div>
             <div class="col-lg-1 col-sm-12 p-0">
                 <button type="submit" class="btn btn-base">
@@ -36,6 +37,7 @@
             </div>
         </form>
     </div>
+    <!-- Search bar end-->
 
     <hr class="my-4">
 
@@ -64,7 +66,7 @@
         </table>
 
         <!-- Pagination start -->
-        <div th:if="${!postList.isEmpty()}">
+        <th:block th:if="${!postList.isEmpty()}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${!postList.hasPrevious} ? 'disabled'">
                     <a class="page-link" th:href="@{|?page=${0}|}">
@@ -72,17 +74,19 @@
                     </a>
                 </li>
                 <li class="page-item" th:classappend="${!postList.hasPrevious} ? 'disabled'">
-                    <a class="page-link" th:href="@{|?page=${postList.number - 1}|}">
+                    <a class="page-link" th:href="@{/posts/search(page=${postList.number - 1}, keyword=${param.keyword})}">
                         <span><</span>
                     </a>
                 </li>
+
                 <li th:each="page: ${#numbers.sequence(postList.number / 10 * 10,
                 (postList.number / 10 * 10 + 9) >= (postList.totalPages - 1) ? (postList.totalPages - 1) : (postList.number / 10 * 10 + 9))}"
                      th:classappend="${page == postList.number} ? 'active'" class="page-item">
-                    <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                    <a th:text="${page + 1}" class="page-link" th:href="@{/posts/search(page=${page}, keyword=${param.keyword})}"></a>
                 </li>
+
                 <li class="page-item" th:classappend="${!postList.hasNext} ? 'disabled'">
-                    <a class="page-link" th:href="@{|?page=${postList.number + 1}|}">
+                    <a class="page-link" th:href="@{/posts/search(page=${postList.number + 1}, keyword=${param.keyword})}">
                         <span>></span>
                     </a>
                 </li>
@@ -92,7 +96,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </th:block>
         <!-- Pagination end -->
     </div>
 
