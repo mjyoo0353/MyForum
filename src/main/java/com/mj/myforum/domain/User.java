@@ -34,4 +34,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    public int getPostCount(){
+        return posts.size();
+    }
+
+    public int getCommentCount(){
+        return comments.size();
+    }
 }
