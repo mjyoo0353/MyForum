@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/all.css}" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
+</head>
+
+<body>
+<header th:replace="~{layout/header :: header}"></header>
+
+<div class="container">
+
+    <div class="col-sm-10 mb-2 mt-5">
+        <h1 th:text="|Hello, ${user.name}|"></h1>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <ul class="list-group">
+                <li class="list-group-item bg-secondary text-white">Profile</li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Login ID:</strong><span th:text="${user.loginId}"></span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Email:</strong><span th:text="${user.email}"></span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Name:</strong><span th:text="${user.name}"></span></li>
+            </ul>
+
+            <ul class="list-group mb-4 mt-4">
+                <li class="list-group-item bg-secondary text-white">Activity</li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Likes:</strong><span>22</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Posts:</strong><span>21</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Comments:</strong><span>25</span></li>
+            </ul>
+
+            <ul class="list-group mb-4 mt-4">
+                <a class="list-group-item" th:href="@{/users/editProfile}">Edit Profile</a>
+                <a class="list-group-item" th:href="@{/users/changePassword}">Change Password</a>
+                <a class="list-group-item" th:href="@{/users/deleteAccount}">Delete Account</a>
+            </ul>
+        </div>
+
+        <div class="col-sm-9">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" href="#posts" type="button" role="tab" aria-controls="posts" aria-selected="true">My Posts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="comments-tab" data-bs-toggle="tab" href="#comments" type="button" role="tab" aria-controls="comments" aria-selected="false">My Comments</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Created Date</th>
+                                <th>Comments</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="post : ${posts}">
+                                <td th:text="${post.id}"></td>
+                                <td><a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                                <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${post.commentCount}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Created Date</th>
+                                <th>Comments</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="comment : ${comments}">
+                                <td th:text="${comment.post.id}"></td>
+                                <td><a th:href="@{/posts/{id}(id=${comment.post.id})}" th:text="${comment.post.title}"></a></td>
+                                <td th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${comment.post.commentCount}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{layout/footer :: footer}"></div>
+
+</div><!-- /container -->
+</body>
+</html>
