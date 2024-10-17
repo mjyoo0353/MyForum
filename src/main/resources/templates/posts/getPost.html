@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/all.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e7ffae9d08.js" crossorigin="anonymous"></script>
 </head>
 
 <style>
@@ -27,18 +28,24 @@
 
     <form th:action th:object="${post}" method="get">
 
-        <div class="py-4">
-            <h4 th:text="*{title}">작성글 제목</h4>
-        </div>
-
-        <hr class="my-2">
-
-        <!-- 게시글 정보 한줄 -->
+        <h4 class="fw-bold py-2 mt-5" th:text="*{title}">작성글 제목</h4>
         <div class="d-flex justify-content-between">
-            <span th:text="'# : '+*{id}"># : postId</span>&nbsp;
-            <span th:text="' | Writer : '+${post.user.loginId}"> | Writer : writer</span>&nbsp;
-            <span th:text="' | Posting Date : '+${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"> | Posting Date : 2024-10-09</span>&nbsp;
-            <span th:text="' | Views : '+*{views}"> | Views : 0</span>
+            <span class="me-5" th:text="${post.user.loginId}"></span>
+            <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+            <div class="d-flex ms-auto">
+                <div class="me-3">
+                    <i class="fa-regular fa-eye"></i>
+                    <span th:text="${post.views}"></span>
+                </div>
+                <div class="me-3">
+                    <i class="fa-regular fa-message"></i>
+                    <span th:text="${post.commentCount}"></span>
+                </div>
+                <div class="me-3">
+                    <i class="fa-regular fa-heart"></i>
+                    <span>0</span>
+                </div>
+            </div>
         </div>
 
         <hr class="my-2">
