@@ -8,7 +8,6 @@ import com.mj.myforum.form.PostForm;
 import com.mj.myforum.service.CommentService;
 import com.mj.myforum.service.PostService;
 import com.mj.myforum.service.UserService;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -103,7 +102,7 @@ public class PostController {
         if (bindingResult.hasErrors()) {
             return "posts/editPost";
         }
-        Post post = postService.getPost(postId);
+        Post post = postService.findById(postId);
         postService.update(post, form.getTitle(), form.getContent());
         redirectAttributes.addAttribute("postId", postId);
         return "redirect:/posts/{postId}";
@@ -112,7 +111,7 @@ public class PostController {
     //게시글 삭제하기
     @GetMapping("/delete")
     public String deletePost(@RequestParam("postId") Long postId) {
-        Post post = postService.getPost(postId);
+        Post post = postService.findById(postId);
         postService.delete(post);
         return "redirect:/posts/list";
     }

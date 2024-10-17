@@ -33,12 +33,12 @@ public class UserController {
 
         //LoginId 중복 체크
         if (userService.isLoginIdDuplicated(form.getLoginId())) {
-            bindingResult.rejectValue("loginId","loginIdDuplicated", "이미 존재하는 아이디입니다.");
+            bindingResult.rejectValue("loginId","loginIdDuplicated", "Login ID already exists.");
         }
 
         //비밀번호 일치 확인
         if (!userService.isPasswordSame(form.getPassword(), form.getPasswordCheck())) {
-            bindingResult.rejectValue("passwordCheck", "passwordCheckError", "비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+            bindingResult.rejectValue("passwordCheck", "passwordCheckError", "The password does not match. Please check and try again.");
         }
 
         if (bindingResult.hasErrors()) {

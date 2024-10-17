@@ -36,7 +36,7 @@ public class CommentController {
             return "redirect:/posts/{postId}";
         }
 
-        Post post = postService.getPost(postId);
+        Post post = postService.findById(postId);
         User user = userService.findById(loginUser.getId());
 
         commentService.save(post, user, commentForm.getContent());

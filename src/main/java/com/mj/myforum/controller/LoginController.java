@@ -40,7 +40,7 @@ public class LoginController {
         //로그인 검증
         User loginUser = loginService.login(form.getLoginId(), form.getPassword());
         if (loginUser == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 일치하지 않습니다.");
+            bindingResult.reject("loginFail", "Invalid login ID or password.");
             return "login/loginForm";
         }
 
