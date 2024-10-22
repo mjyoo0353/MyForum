@@ -64,6 +64,7 @@ public class UserController {
             model.addAttribute("user", userId);
             model.addAttribute("posts", userId.getPosts());
             model.addAttribute("comments", userId.getComments());
+            model.addAttribute("likes", userId.getLikes());
         }
         return "users/getProfile";
     }

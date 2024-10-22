@@ -7,6 +7,7 @@
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
     <!--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
+    <script src="https://kit.fontawesome.com/e7ffae9d08.js" crossorigin="anonymous"></script>
 
     <style>
         .container {
@@ -51,7 +52,7 @@
 
             <ul class="list-group mb-4 mt-4">
                 <li class="list-group-item bg-secondary text-white">Activity</li>
-                <li class="list-group-item d-flex justify-content-between"><strong>Likes:</strong><span>22</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Likes:</strong><span th:text="${user.likesCount}"></span></li>
                 <li class="list-group-item d-flex justify-content-between"><strong>Posts:</strong><span th:text="${user.postCount}"></span></li>
                 <li class="list-group-item d-flex justify-content-between"><strong>Comments:</strong><span th:text="${user.commentCount}"></span></li>
             </ul>
@@ -72,7 +73,7 @@
                     <button class="nav-link" id="comments-tab" data-bs-toggle="tab" href="#comments" type="button" role="tab" aria-controls="comments" aria-selected="false">My Comments</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+                    <button class="nav-link" id="likes-tab" data-bs-toggle="tab" href="#likes" type="button" role="tab" aria-controls="likes" aria-selected="false">Liked Posts</button>
                 </li>
             </ul>
 
@@ -82,18 +83,27 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Title</th>
                                 <th>Created Date</th>
-                                <th>Comments</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="post : ${posts}">
-                                <td th:text="${post.id}"></td>
                                 <td><a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
                                 <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}"></td>
-                                <td th:text="${post.commentCount}"></td>
+                                <td class="d-flex justify-content-end">
+                                    <div class="d-flex align-items">
+                                        <div class="me-3">
+                                            <i class="fa-regular fa-message"></i>
+                                            <span th:text="${post.commentCount}"></span>
+                                        </div>
+                                        <div class="me-3">
+                                            <i class="fa-regular fa-heart"></i>
+                                            <span th:text="${post.likesCount}"></span>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -109,11 +119,54 @@
                                     <p class="comment-title" th:text="${comment.post.title}"></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p class="comment-date mb-0" th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd')}"></p>
-                                        <span th:text="${comment.post.commentCount}"></span>
+                                        <div class="d-flex justify-content-end">
+                                            <div class="d-flex align-items">
+                                                <div class="me-3">
+                                                    <i class="fa-regular fa-message"></i>
+                                                    <span th:text="${comment.post.commentCount}"></span>
+                                                </div>
+                                                <div class="me-3">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                    <span th:text="${comment.post.likesCount}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="likes" role="tabpanel" aria-labelledby="likes-tab">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Created Date</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="like : ${likes}">
+                                <td><a th:href="@{/posts/{id}(id=${like.post.id})}" th:text="${like.post.title}"></a></td>
+                                <td th:text="${#temporals.format(like.post.createdDate, 'yyyy-MM-dd')}"></td>
+                                <td class="d-flex justify-content-end">
+                                    <div class="d-flex align-items">
+                                        <div class="me-3">
+                                            <i class="fa-regular fa-message"></i>
+                                            <span th:text="${like.post.commentCount}"></span>
+                                        </div>
+                                        <div class="me-3">
+                                            <i class="fa-regular fa-heart"></i>
+                                            <span th:text="${like.post.likesCount}"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

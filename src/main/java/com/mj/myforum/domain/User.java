@@ -36,12 +36,19 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Likes> likes = new ArrayList<>();
+
     public int getPostCount(){
         return posts.size();
     }
 
     public int getCommentCount(){
         return comments.size();
+    }
+
+    public int getLikesCount(){
+        return likes.size();
     }
 
     public static User createUser(String loginId, String password, String name, String email) {
