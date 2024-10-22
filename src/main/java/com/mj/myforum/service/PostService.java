@@ -2,6 +2,7 @@ package com.mj.myforum.service;
 
 import com.mj.myforum.domain.Post;
 import com.mj.myforum.domain.User;
+import com.mj.myforum.repository.LikeRepository;
 import com.mj.myforum.repository.PostRepository;
 import com.mj.myforum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
 
     public Long save(Long userId, String title, String content) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User not found"));
@@ -54,13 +56,5 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
         return postRepository.findByTitleContaining(keyword, pageable);
     }
-
-    public Post getPost(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalStateException("Post not found"));
-        post.setViews(post.getViews() + 1); //조회수 증가
-        postRepository.save(post); //post 조회수 증가 update
-        return post;
-    }
-
 
 }

@@ -1,5 +1,6 @@
 package com.mj.myforum.domain;
 
+import com.mj.myforum.repository.LikeRepository;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 10000)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,19 +30,15 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
     private LocalDateTime modifiedDate;
 
-    private Long views;
-
-
-    public int getCommentCount(){
-        return commentList.size();
-    }
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Likes> likes = new ArrayList<>();
 
     public static Post createPost(User user, String title, String content) {
         Post post = new Post();
@@ -49,8 +46,15 @@ public class Post {
         post.setTitle(title);
         post.setContent(content);
         post.setCreatedDate(LocalDateTime.now());
-        post.setViews(0L);
         return post;
+    }
+
+    public int getCommentCount(){
+        return comments.size();
+    }
+
+    public int getLikesCount(){
+        return likes.size();
     }
 
 }

@@ -6,6 +6,7 @@ import com.mj.myforum.domain.User;
 import com.mj.myforum.form.CommentForm;
 import com.mj.myforum.form.PostForm;
 import com.mj.myforum.service.CommentService;
+import com.mj.myforum.service.LikeService;
 import com.mj.myforum.service.PostService;
 import com.mj.myforum.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/posts")
 @Controller
@@ -28,6 +28,7 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
     private final CommentService commentService;
+    private final LikeService likeService;
 
 
     @GetMapping("/list")
@@ -40,8 +41,8 @@ public class PostController {
 
     @GetMapping("/search")
     public String postList(@RequestParam(value = "keyword", required = false) String keyword,
-                                @RequestParam(value = "page", defaultValue = "0") int page,
-                                Model model) {
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           Model model) {
 
         Page<Post> postList = postService.searchPosts(keyword, page);
         model.addAttribute("postList", postList);
@@ -53,7 +54,7 @@ public class PostController {
     public String getPost(@PathVariable Long postId, Model model, CommentForm commentForm,
                           @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 
-        Post post = postService.getPost(postId);
+        Post post = postService.findById(postId);
         List<Comment> comments = commentService.commentList(postId);
         model.addAttribute("post", post);
         model.addAttribute("loginUser", loginUser);
@@ -71,15 +72,15 @@ public class PostController {
     //게시글 작성
     @PostMapping("/create")
     public String createPost(@Validated @ModelAttribute("form") PostForm form, BindingResult bindingResult,
-                             @SessionAttribute(name = "loginUser", required = false) User loginUser,
+                             @SessionAttribute(name = "loginUser") User loginUser,
                              RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "posts/createPost";
         }
-        Optional<User> user = userService.findByLoginId(loginUser.getLoginId());
-        Post savedPost = postService.save(form.getTitle(), form.getContent(), user.get());
-        redirectAttributes.addAttribute("postId", savedPost.getId());
+        User user = userService.findById(loginUser.getId());
+        Long postId = postService.save(user.getId(), form.getTitle(), form.getContent());
+        redirectAttributes.addAttribute("postId", postId);
         return "redirect:/posts/{postId}";
     }
 
@@ -116,4 +117,12 @@ public class PostController {
         return "redirect:/posts/list";
     }
 
+    @GetMapping("/likes/{postId}")
+    public String postLikes(@PathVariable("postId") Long postId,
+                            @SessionAttribute(name = "loginUser") User loginUser) {
+        Post post = postService.findById(postId);
+        User user = userService.findById(loginUser.getId());
+        likeService.likeStatus(user, post);
+        return "redirect:/posts/{postId}";
+    }
 }
