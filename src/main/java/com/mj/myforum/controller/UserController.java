@@ -45,7 +45,7 @@ public class UserController {
             return "users/signupForm";
         }
 
-        User savedUser = userService.save(form.getLoginId(), form.getPassword(), form.getName(), form.getEmail());
+        userService.save(form.getLoginId(), form.getPassword(), form.getName(), form.getEmail());
         return "redirect:/";
     }
 

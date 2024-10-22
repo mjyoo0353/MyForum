@@ -3,6 +3,7 @@ package com.mj.myforum.service;
 import com.mj.myforum.domain.Post;
 import com.mj.myforum.domain.User;
 import com.mj.myforum.repository.PostRepository;
+import com.mj.myforum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,15 +19,13 @@ import java.time.LocalDateTime;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public Post save(String title, String content, User user) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
-        post.setUser(user);
-        post.setCreatedDate(LocalDateTime.now());
-        post.setViews(0L);
-        return postRepository.save(post);
+    public Long save(Long userId, String title, String content) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User not found"));
+        Post post = Post.createPost(user, title, content);
+        postRepository.save(post);
+        return post.getId();
     }
 
     public void update(Post post, String title, String content) {
@@ -62,7 +61,6 @@ public class PostService {
         postRepository.save(post); //post 조회수 증가 update
         return post;
     }
-
 
 
 }

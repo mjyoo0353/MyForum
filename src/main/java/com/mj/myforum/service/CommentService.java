@@ -21,17 +21,13 @@ public class CommentService {
         return commentRepository.findByPostId(postId);
     }
 
-    public Comment getComment(Long id) {
+    public Comment findById(Long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Comment not found"));
     }
 
     public Comment save(Post post, User user, String content) {
-        Comment comment = new Comment();
-        comment.setPost(post);
-        comment.setUser(user);
-        comment.setContent(content);
-        comment.setCreatedDate(LocalDateTime.now());
+        Comment comment = Comment.createComment(post, user, content);
         commentRepository.save(comment);
         return comment;
     }

@@ -20,11 +20,7 @@ public class UserService {
     //회원가입
     @Transactional //기본 default는 false, 회원가입은 읽고 쓰도록 설정
     public User save(String loginId, String password, String name, String email) {
-        User user = new User();
-        user.setLoginId(loginId);
-        user.setPassword(password);
-        user.setName(name);
-        user.setEmail(email);
+        User user = User.createUser(loginId, password, name, email);
         userRepository.save(user);
         return user;
     }
