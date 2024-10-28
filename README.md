@@ -5,8 +5,8 @@
 ## 🗂️ Table of Contents
 -  [Project Introduction](#0)
 -  [Key Features](#1)
--  [Database and API Design](#2)
--  [Technologies, Libraries, and tools Used](#3)
+-  [Technologies, Libraries, and tools Used](#2)
+-  [Database and API Design](#3)
 -  [Screenshots](#4)
 </br>
 
