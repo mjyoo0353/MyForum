@@ -76,3 +76,25 @@
 <h2 id="4">
     <b>📌 Screenshots</b>
 </h2>
+
+- ### Main Page
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/08156995-dab8-4ffb-a606-58ee1c601de6">
+<img width="860" alt="image" src="https://github.com/user-attachments/assets/c0f3ce91-d9be-4832-86ce-8219690b0839">
+
+- ### Redirect unauthenticated users to the Login Page
+<img width="770" alt="image" src="https://github.com/user-attachments/assets/25d068c7-cc18-4d55-8f7d-ebd108bc4fca">
+
+- ### Signup Page - Validation check
+<img width="770" alt="image" src="https://github.com/user-attachments/assets/2c073c27-0838-4cb6-be9e-f50876825f23">
+
+- ### Searching
+<img width="851" alt="image" src="https://github.com/user-attachments/assets/5333a51a-1fda-44aa-8998-03b78b31ad88">
+
+- ### Post Detail Page
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/e0e698fb-be4d-4135-a03d-11220ec3b4dd">
+
+- ### Profile Page
+<img width="828" alt="image" src="https://github.com/user-attachments/assets/99063467-40b7-4cd2-b11a-b5d0243a7c4a">
+<img width="812" alt="image" src="https://github.com/user-attachments/assets/8e27c310-2160-4a1f-a903-76c600131d4e">
+<img width="821" alt="image" src="https://github.com/user-attachments/assets/9da6f67d-8160-42b0-8ce6-d378d504ed64">
+
