@@ -1,4 +1,4 @@
-package com.mj.myforum.domain;
+package com.mj.myforum.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -11,23 +11,22 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String loginId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String password;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, length = 20)
+    private String username;
 
-    @Email @Column(nullable = false)
+    @Email @Column(nullable = false, length = 40)
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -38,6 +37,15 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Likes> likes = new ArrayList<>();
+
+    public static User createUser(String loginId, String password, String name, String email) {
+        User user = new User();
+        user.setLoginId(loginId);
+        user.setPassword(password);
+        user.setUsername(name);
+        user.setEmail(email);
+        return user;
+    }
 
     public int getPostCount(){
         return posts.size();
@@ -51,12 +59,11 @@ public class User {
         return likes.size();
     }
 
-    public static User createUser(String loginId, String password, String name, String email) {
-        User user = new User();
-        user.setLoginId(loginId);
-        user.setPassword(password);
-        user.setName(name);
-        user.setEmail(email);
-        return user;
+    public User(String loginId, String password, String username, String email) {
+        this.loginId = loginId;
+        this.password = password;
+        this.username = username;
+        this.email = email;
     }
+
 }

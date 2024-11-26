@@ -1,6 +1,6 @@
 package com.mj.myforum.service;
 
-import com.mj.myforum.domain.User;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @Transactional(readOnly = true)

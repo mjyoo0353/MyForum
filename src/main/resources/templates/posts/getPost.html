@@ -30,8 +30,8 @@
 
         <h4 class="fw-bold py-2 mt-5" th:text="*{title}">작성글 제목</h4>
         <div class="d-flex justify-content-between">
-            <span class="me-5" th:text="${post.user.name}"></span>
-            <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+            <span class="me-5" th:text="${post.user.username}"></span>
+            <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
             <div class="d-flex ms-auto">
                 <div class="me-3">
                     <i class="fa-regular fa-message"></i>
@@ -62,7 +62,7 @@
         <!-- 좋아요 버튼 추가 -->
         <div class="d-flex justify-content-center">
             <a href="javascript:void(0);" class="like btn btn-sm btn-outline-secondary"
-               th:data-uri="@{|/posts/likes/${post.id}|}">추천
+               th:data-uri="@{|/posts/likes/${post.id}|}">Like
                 <span class="badge rounded-pill bg-success" th:text="${post.likesCount}"></span>
             </a>
         </div>

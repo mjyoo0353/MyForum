@@ -1,10 +1,9 @@
 package com.mj.myforum.service;
 
-import com.mj.myforum.domain.Likes;
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
+import com.mj.myforum.entity.Likes;
+import com.mj.myforum.entity.Post;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.repository.LikeRepository;
-import com.mj.myforum.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

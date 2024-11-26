@@ -1,9 +1,9 @@
 package com.mj.myforum.controller;
 
-import com.mj.myforum.domain.Comment;
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
-import com.mj.myforum.form.CommentForm;
+import com.mj.myforum.dto.CommentForm;
+import com.mj.myforum.entity.Comment;
+import com.mj.myforum.entity.Post;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.service.CommentService;
 import com.mj.myforum.service.PostService;
 import com.mj.myforum.service.UserService;

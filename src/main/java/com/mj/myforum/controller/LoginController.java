@@ -1,9 +1,8 @@
 package com.mj.myforum.controller;
 
-import com.mj.myforum.domain.User;
-import com.mj.myforum.form.LoginForm;
+import com.mj.myforum.dto.LoginForm;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.service.LoginService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

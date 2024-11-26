@@ -1,8 +1,8 @@
 package com.mj.myforum.repository;
 
-import com.mj.myforum.domain.Likes;
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
+import com.mj.myforum.entity.Likes;
+import com.mj.myforum.entity.Post;
+import com.mj.myforum.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LikeRepository extends JpaRepository<Likes, Long> {

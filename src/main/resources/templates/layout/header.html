@@ -19,7 +19,7 @@
 
         <div class="text-end d-flex align-items-center">
             <div th:if="${session.loginUser != null}" class="d-flex align-items-center">
-                <span class="text-white me-3" th:text="${session.loginUser.name}"></span>
+                <span class="text-white me-3" th:text="${session.loginUser.username}"></span>
                 <a class="btn btn-outline-light me-2" th:href="@{/users/profile}">MY PAGE</a>
                 <form th:action="@{/logout}" method="POST">
                     <button type="submit" class="btn btn-outline-light me-2">LOGOUT</button>

@@ -1,9 +1,7 @@
 package com.mj.myforum.controller;
 
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
-import com.mj.myforum.form.SignupForm;
-import com.mj.myforum.service.PostService;
+import com.mj.myforum.dto.SignupForm;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @Slf4j
 @Controller
@@ -45,7 +44,7 @@ public class UserController {
             return "users/signupForm";
         }
 
-        userService.save(form.getLoginId(), form.getPassword(), form.getName(), form.getEmail());
+        userService.save(form.getLoginId(), form.getPassword(), form.getUsername(), form.getEmail());
         return "redirect:/";
     }
 

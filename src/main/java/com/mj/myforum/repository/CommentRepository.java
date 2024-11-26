@@ -1,6 +1,6 @@
 package com.mj.myforum.repository;
 
-import com.mj.myforum.domain.Comment;
+import com.mj.myforum.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

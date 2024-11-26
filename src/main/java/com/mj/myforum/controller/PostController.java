@@ -1,10 +1,11 @@
 package com.mj.myforum.controller;
 
-import com.mj.myforum.domain.Comment;
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
-import com.mj.myforum.form.CommentForm;
-import com.mj.myforum.form.PostForm;
+import com.mj.myforum.dto.CommentForm;
+import com.mj.myforum.dto.PostRequestDto;
+import com.mj.myforum.dto.PostResponseDto;
+import com.mj.myforum.entity.Comment;
+import com.mj.myforum.entity.Post;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.service.CommentService;
 import com.mj.myforum.service.LikeService;
 import com.mj.myforum.service.PostService;
@@ -30,32 +31,25 @@ public class PostController {
     private final CommentService commentService;
     private final LikeService likeService;
 
-
     @GetMapping("/list")
-    public String postList(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
-
-        Page<Post> postList = postService.getPostList(page);
-        model.addAttribute("postList", postList);
-        return "posts/postList";
-    }
-
-    @GetMapping("/search")
     public String postList(@RequestParam(value = "keyword", required = false) String keyword,
-                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                            Model model) {
 
-        Page<Post> postList = postService.searchPosts(keyword, page);
+        Page<Post> postList = postService.getPosts(keyword, page);
         model.addAttribute("postList", postList);
         return "posts/postList";
     }
 
     //작성한 글 보기
     @GetMapping("/{postId}")
-    public String getPost(@PathVariable Long postId, Model model, CommentForm commentForm,
-                          @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+    public String viewPost(@PathVariable Long postId, Model model,
+                           @ModelAttribute CommentForm commentForm,
+                           @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 
         Post post = postService.findById(postId);
         List<Comment> comments = commentService.commentList(postId);
+
         model.addAttribute("post", post);
         model.addAttribute("loginUser", loginUser);
         model.addAttribute("commentForm", commentForm);
@@ -65,13 +59,13 @@ public class PostController {
 
     //게시글 작성 폼 불러오기
     @GetMapping("/create")
-    public String createPostForm(@ModelAttribute("form") PostForm form) {
+    public String createPostForm(@ModelAttribute("form") PostRequestDto form) {
         return "posts/createPost";
     }
 
     //게시글 작성
     @PostMapping("/create")
-    public String createPost(@Validated @ModelAttribute("form") PostForm form, BindingResult bindingResult,
+    public String createPost(@Validated @ModelAttribute("form") PostRequestDto form, BindingResult bindingResult,
                              @SessionAttribute(name = "loginUser") User loginUser,
                              RedirectAttributes redirectAttributes) {
 
@@ -86,18 +80,19 @@ public class PostController {
 
     //게시글 수정하기
     @GetMapping("/edit")
-    public String editPostForm(PostForm form, @RequestParam("postId") Long postId, Model model) {
-        Post post = postService.findById(postId); //수정할 post 객체 불러오기
-        form.setTitle(post.getTitle());
-        form.setContent(post.getContent()); //뷰에 보일 postForm에 수정 전 데이터 저장
+    public String editPostForm(@ModelAttribute("form") PostRequestDto form,
+                               @RequestParam("postId") Long postId,
+                               Model model) {
 
-        model.addAttribute("form", form); //해당 form 뷰에 전달
+        Post post = postService.findById(postId); //수정할 post 객체 불러오기
+        PostRequestDto postRequestDto = PostRequestDto.fromEntity(post);
+        model.addAttribute("form", postRequestDto); //해당 form 뷰에 전달
         model.addAttribute("postId", postId); //수정할 id도 전달*/
         return "posts/editPost";
     }
 
     @PostMapping("/edit/{postId}")
-    public String editPost(@Validated @ModelAttribute("form") PostForm form, BindingResult bindingResult,
+    public String editPost(@Validated @ModelAttribute("form") PostRequestDto form, BindingResult bindingResult,
                            @PathVariable Long postId, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {

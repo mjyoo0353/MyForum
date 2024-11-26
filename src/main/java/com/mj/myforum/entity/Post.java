@@ -1,25 +1,25 @@
-package com.mj.myforum.domain;
+package com.mj.myforum.entity;
 
-import com.mj.myforum.repository.LikeRepository;
+import com.mj.myforum.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+@NoArgsConstructor
+public class Post extends TimeStamped{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -32,20 +32,20 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @Column(nullable = false)
-    private LocalDateTime createdDate;
-
-    private LocalDateTime modifiedDate;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
+
+    public Post(PostRequestDto requestDto, User user) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.user = user;
+    }
 
     public static Post createPost(User user, String title, String content) {
         Post post = new Post();
         post.setUser(user);
         post.setTitle(title);
         post.setContent(content);
-        post.setCreatedDate(LocalDateTime.now());
         return post;
     }
 
@@ -56,5 +56,6 @@ public class Post {
     public int getLikesCount(){
         return likes.size();
     }
+
 
 }

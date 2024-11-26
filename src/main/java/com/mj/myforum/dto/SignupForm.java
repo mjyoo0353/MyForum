@@ -1,10 +1,12 @@
-package com.mj.myforum.form;
+package com.mj.myforum.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class SignupForm {
 
     @NotBlank(message = "Enter a login ID")
@@ -17,7 +19,7 @@ public class SignupForm {
     private String passwordCheck;
 
     @NotBlank(message = "Enter your name")
-    private String name;
+    private String username;
 
     @Email @NotBlank(message = "Enter your email")
     private String email;

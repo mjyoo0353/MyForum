@@ -5,7 +5,17 @@
     <title>Sign up</title>
 
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/all.css}" rel="stylesheet">
+
+    <style>
+        .container {
+            max-width: 650px;
+        }
+
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,8 +52,8 @@
 
         <div>
             <label for="name">Name</label>
-            <input type="text" id="name" th:field="*{name}" th:errorclass="field-error" class="form-control">
-            <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            <input type="text" id="name" th:field="*{username}" th:errorclass="field-error" class="form-control">
+            <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
         </div>
 
         <div>

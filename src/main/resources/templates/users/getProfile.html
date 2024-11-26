@@ -37,7 +37,7 @@
 <div class="container">
 
     <div class="col-sm-10 mb-2 mt-5">
-        <h1 th:text="|Hello, ${user.name}|"></h1>
+        <h1 th:text="|Hello, ${user.username}|"></h1>
     </div>
     <hr>
 
@@ -47,7 +47,7 @@
                 <li class="list-group-item bg-secondary text-white">Profile</li>
                 <li class="list-group-item d-flex justify-content-between"><strong>Login ID:</strong><span th:text="${user.loginId}"></span></li>
                 <li class="list-group-item d-flex justify-content-between"><strong>Email:</strong><span th:text="${user.email}"></span></li>
-                <li class="list-group-item d-flex justify-content-between"><strong>Name:</strong><span th:text="${user.name}"></span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Username:</strong><span th:text="${user.username}"></span></li>
             </ul>
 
             <ul class="list-group mb-4 mt-4">
@@ -91,7 +91,7 @@
                             <tbody>
                             <tr th:each="post : ${posts}">
                                 <td><a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
-                                <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></td>
                                 <td class="d-flex justify-content-end">
                                     <div class="d-flex align-items">
                                         <div class="me-3">
@@ -151,7 +151,7 @@
                             <tbody>
                             <tr th:each="like : ${likes}">
                                 <td><a th:href="@{/posts/{id}(id=${like.post.id})}" th:text="${like.post.title}"></a></td>
-                                <td th:text="${#temporals.format(like.post.createdDate, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${#temporals.format(like.post.createdAt, 'yyyy-MM-dd')}"></td>
                                 <td class="d-flex justify-content-end">
                                     <div class="d-flex align-items">
                                         <div class="me-3">

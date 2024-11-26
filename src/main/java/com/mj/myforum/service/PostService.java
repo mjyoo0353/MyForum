@@ -1,7 +1,8 @@
 package com.mj.myforum.service;
 
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
+import com.mj.myforum.dto.PostResponseDto;
+import com.mj.myforum.entity.Post;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.repository.LikeRepository;
 import com.mj.myforum.repository.PostRepository;
 import com.mj.myforum.repository.UserRepository;
@@ -33,7 +34,7 @@ public class PostService {
     public void update(Post post, String title, String content) {
         post.setTitle(title);
         post.setContent(content); //수정된 제목, 내용으로 업데이트
-        post.setModifiedDate(LocalDateTime.now());
+        //post.setModifiedDate(LocalDateTime.now());
         postRepository.save(post);
     }
 
@@ -46,15 +47,19 @@ public class PostService {
                 .orElseThrow(() -> new IllegalStateException("Post not found"));
     }
 
-    public Page<Post> getPostList(int page) {
+    public Page<Post> getPosts(String keyword, int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
-        return postRepository.findAll(pageable);
-    }
-    public Page<Post> searchPosts(String keyword, int page) {
-        if(keyword == null) keyword = "";
 
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
-        return postRepository.findByTitleContaining(keyword, pageable);
+        if(keyword == null || keyword.trim().isEmpty()) {
+            return postRepository.findAll(pageable);
+        }else {
+            return postRepository.findByKeyword(keyword, pageable);
+        }
     }
 
+    public PostResponseDto getPostById(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+        return new PostResponseDto(post);
+    }
 }

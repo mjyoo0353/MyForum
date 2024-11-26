@@ -1,4 +1,4 @@
-package com.mj.myforum.domain;
+package com.mj.myforum.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,15 +1,14 @@
 package com.mj.myforum.service;
 
-import com.mj.myforum.domain.Comment;
-import com.mj.myforum.domain.Post;
-import com.mj.myforum.domain.User;
+import com.mj.myforum.entity.Comment;
+import com.mj.myforum.entity.Post;
+import com.mj.myforum.entity.User;
 import com.mj.myforum.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,4 +41,7 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
+    public Comment getComment(Long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(() -> new IllegalStateException("Comment not found"));
+    }
 }

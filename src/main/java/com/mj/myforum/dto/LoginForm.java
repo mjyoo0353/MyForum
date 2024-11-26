@@ -1,4 +1,4 @@
-package com.mj.myforum.form;
+package com.mj.myforum.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
