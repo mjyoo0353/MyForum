@@ -115,11 +115,19 @@
 
 <script>
     const like_elements = document.getElementsByClassName("like");
-    Array.from(like_elements).forEach(function(element) {
-        element.addEventListener('click', function() {
-            location.href = this.dataset.uri;
+    Array.from(like_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            fetch(this.dataset.uri, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    // 좋아요 개수 업데이트
+                    const badge = this.querySelector('span');
+                    badge.textContent = data.likesCount;
+                })
+                .catch(error => console.error('Error:', error));
         });
     });
+
 </script>
 
 </body>

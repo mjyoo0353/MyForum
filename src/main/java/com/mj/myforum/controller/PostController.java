@@ -19,7 +19,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/posts")
 @Controller
@@ -112,12 +114,17 @@ public class PostController {
         return "redirect:/posts/list";
     }
 
-    @GetMapping("/likes/{postId}")
-    public String postLikes(@PathVariable("postId") Long postId,
-                            @SessionAttribute(name = "loginUser") User loginUser) {
+    @PostMapping("/likes/{postId}")
+    @ResponseBody
+    public Map<String, Object> toggleLike(@PathVariable("postId") Long postId,
+                                         @SessionAttribute(name = "loginUser") User loginUser) {
         Post post = postService.findById(postId);
         User user = userService.findById(loginUser.getId());
         likeService.likeStatus(user, post);
-        return "redirect:/posts/{postId}";
+        int updatedLikesCount = post.getLikesCount();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("likesCount", updatedLikesCount);
+        return response;
     }
 }
